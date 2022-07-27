@@ -38,7 +38,7 @@ def print_seating_chart(chart):
     for row in chart.values():
         print(row)
 
-def get_seat_info(int, int2): #returns info for seat specified in arguments
+def get_seat_info(int, int2, seating_chart): #returns info for seat specified in arguments
     print(seating_chart[int -1][int2])
 
 def show_reservations(res_list):
