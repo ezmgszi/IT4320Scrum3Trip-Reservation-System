@@ -9,6 +9,11 @@ def create_app():
     app.config["RECAPTCHA_PUBLIC_KEY"] = "iubhiukfgjbkhfvgkdfm"
     app.config["RECAPTCHA_PARAMETERS"] = {"size": "100%"}
 
+    app.config.update(dict(
+        SECRET_KEY="powerful secretkey",
+        WTF_CSRF_SECRET_KEY="a csrf secret key"
+    ))
+
     with app.app_context():
         # Import parts of our flask_wtforms_tutorial
         from . import routes
