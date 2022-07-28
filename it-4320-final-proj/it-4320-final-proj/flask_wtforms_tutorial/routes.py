@@ -1,24 +1,17 @@
 from flask import current_app as app
-from flask import redirect, render_template, url_for, request, flash
+from flask import redirect, render_template, request
 from .forms import *
-import numpy
 import pandas as pd
 import itertools
 import csv
 
 
 # check if username and pass word are correct
+# returns true on bad username/password
 def validate_user_pass(user_name, password):
-    print(user_name)
-    print(password)
     data = pd.read_csv('passcodes.txt', header=None, names=['user_name', 'password'])
-    print(data)
     data = data[data.user_name == user_name]
-    print(data)
-    print(password)
-    print(data.password)
     data = data[data.password.astype(str) == password]
-    print(data)
     if data.empty:
         return True
     else:
@@ -27,7 +20,7 @@ def validate_user_pass(user_name, password):
 
 # get total sales of reserved seats
 def get_total_sales(reservation_list):
-    seating_chart= {}
+    seating_chart = {}
     for i in range(0, 12):
         seating_chart[i] = [0, 0, 0, 0]
     for line in reservation_list:
@@ -85,6 +78,7 @@ def get_reservations_list(filename):
     return reservations_list
 
 
+# create seating chart to be displayed
 def generate_seating_charts(reservation_list):
     seating_chart = {}
     for i in range(0, 12):
@@ -96,7 +90,6 @@ def generate_seating_charts(reservation_list):
 
 @app.route("/", methods=['GET', 'POST'])
 def user_options():
-
     form = UserOptionForm()
     # check if the request method is POST. POST method means that form data was submitted
     # So, if method is POST we can get the form data
@@ -115,15 +108,15 @@ def user_options():
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
-    # posting data used for checking if statment in templete, allows for display for first page load, and submitted
+    # posting data used for checking if statement in template, allows for display for first page load, and submitted
     posting_data = False
     # get the form data
     form = AdminLoginForm()
     # if submit was selected, then a requests will have a post method
     if request.method == "POST" and form.validate_on_submit():
-        # validate pass word
+        # validate pass word true means bad username/pass combo. False means good
         validate_input = validate_user_pass(request.form["username"], request.form["password"])
-        print(validate_input)
+        # valid pass/user name
         if not validate_input:
             # create seating chart list
             initial_reservations_list = get_reservations_list('reservations.csv')
@@ -132,6 +125,7 @@ def admin():
             total_sales = get_total_sales(initial_reservations_list)
             return render_template("admin.html", form=form, template="form-template", seating_chart=seating_chart,
                                    validate_input=validate_input, total_sales=total_sales)
+        # invalid pass/user name
         return render_template("admin.html", form=form, template="form-template", posting_data=posting_data,
                                validate_input=validate_input)
     return render_template("admin.html", form=form, template="form-template", posting_data=posting_data)
@@ -139,7 +133,7 @@ def admin():
 
 @app.route("/reservations", methods=['GET', 'POST'])
 def reservations():
-    # posting data used for checking if statment in templete, allows for display for first page load, and submitted
+    # posting data used for checking if statement in template, allows for display for first page load, and submitted
     posting_data = False
     # get the form data
     form = ReservationForm()
@@ -158,20 +152,17 @@ def reservations():
         if validated_choice:
             reservation_code = create_reservation_code(first_name)
             add_reservation_to_file(first_name, row_choice, seat_choice, reservation_code)
-
         # create seating chart list
         initial_reservations_list = get_reservations_list('reservations.csv')
         seating_chart = generate_seating_charts(initial_reservations_list)
-
         # make the render call
         return render_template("reservations.html", form=form, template="form-template", posting_data=posting_data,
                                first_name=first_name, last_name=last_name, row_choice=row_choice,
                                seat_choice=seat_choice, validated_choice=validated_choice, seating_chart=seating_chart,
                                reservation_code=reservation_code)
-    # post is false, first time templete is made
+    # post is false, first time template is made
     # create seating chart list
     initial_reservations_list = get_reservations_list('reservations.csv')
     seating_chart = generate_seating_charts(initial_reservations_list)
     return render_template("reservations.html", form=form, template="form-template",
                            posting_data=posting_data, seating_chart=seating_chart)
-
