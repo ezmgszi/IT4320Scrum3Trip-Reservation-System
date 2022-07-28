@@ -28,9 +28,10 @@ def get_total_sales(reservation_list):
     total_sales = 0
     seating_chart_prices = [100, 75, 50, 100]
     for i in range(0, 12):
-        for j in range(0, 3):
+        for j in range(0, 4):
             if seating_chart[i][j] == 1:
                 total_sales = total_sales + seating_chart_prices[j]
+                # print(total_sales)
     return total_sales
 
 
