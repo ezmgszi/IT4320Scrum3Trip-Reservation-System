@@ -7,7 +7,26 @@
 {% block content %}
 <div class="formwrapper">
   <h2 class="title">Administrator Login</h2>
-  
+  {% if validate_input == False %}
+    <h1 style="font-size: 15px;text-align:left;">  Printing Seating Chart </h1>
+    <div style="background-color:#ced0d3;padding:5px;width:150px;border-radius:10px;">
+        <ul>
+            {% for row in seating_chart %}
+                <li> {{ row+1}} {{': [' }}
+                {% for a_value in seating_chart[row] %}
+                    {{ a_value }}
+                {% endfor %}
+                {{']'}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <h1 style="font-size: 15px;text-align:left;">  Total Sales: {{ total_sales }} </h1>
+    {% endif %}
+
+    {% if validate_input == True %}
+    <h1 style="color: red;font-size: 15px;text-align:left;">  ERROR: Bad username/password combination. Try again </h1>
+    {% endif %}
+
   <form method="POST" action="/admin">
       {{ form.csrf_token }}
       <div class="form-field">{{ form.username.label }} {{ form.username }}
