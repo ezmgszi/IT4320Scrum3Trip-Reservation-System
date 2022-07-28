@@ -20,7 +20,7 @@ def validate_choice(row, seat):
 
 # generate reservation code
 def create_reservation_code(first_name):
-    string_1 = "INFOTC1040"
+    string_1 = "INFOTC4320"
     new_list = []
     for f, b in itertools.zip_longest(first_name, string_1):
         if f:

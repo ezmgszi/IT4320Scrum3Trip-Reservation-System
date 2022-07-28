@@ -8,13 +8,12 @@
 <div class="formwrapper">
   <h2 class="title">Reserve Your Seat</h2>
     {% if validated_choice == True %}
-        <h1 style="font-size: 15px;text-align:left;"> Your reservation has been created!</h1>
-        <h1 style="font-size: 15px;text-align:left;">  Reservation Code: </h1>
-        {{ reservation_code }}
+        <h1 style="font-size: 15px;text-align:left;"> Congratulations {{first_name}}! Row:{{row_choice+1}} Seat:{{seat_choice+1}} is now reserved for you! Enjoy the trip!</h1>
+        <h1 style="font-size: 15px;text-align:left;">  Your e-ticket number is: {{ reservation_code }} </h1>
+
     {% endif %}
      {% if validated_choice == False %}
-        <h1 style="font-size: 15px;text-align:left;"> Your reservation has not created</h1>
-        <h1 style="font-size: 15px;text-align:left;">  Seat is already reserved. Try again with a different seat choice </h1>
+        <h1 style="color: red;font-size: 15px;text-align:left;">  ERROR: Row:{{row_choice+1}} Seat:{{seat_choice+1}} is already assigned. Choose again </h1>
     {% endif %}
     <h1 style="font-size: 15px;text-align:left;"> Seating Chart</h1>
     <h1 style="font-size: 10px;text-align:left;"> X = Reserved Seat : O = Available Seat </h1>
