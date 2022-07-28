@@ -6,6 +6,14 @@
 
 {% block content %}
 <div class="formwrapper">
+    <div style="font-size: 15px;text-align:right;">
+        <a href="/">Home</a> {{ '|' }}
+        <a  href="admin">Admin</a> {{ '|' }}
+        <a  href="reservations">Reservation</a>
+    </div>
+
+
+
   <h2 class="title">Administrator Login</h2>
   {% if validate_input == False %}
     <h1 style="font-size: 15px;text-align:left;">  Printing Seating Chart </h1>

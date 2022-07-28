@@ -6,6 +6,11 @@
 
 {% block content %}
 <div class="formwrapper">
+    <div style="font-size: 15px;text-align:right;">
+        <a href="/">Home</a> {{ '|' }}
+        <a  href="admin">Admin</a> {{ '|' }}
+        <a  href="reservations">Reservation</a>
+    </div>
   <h2 class="title">Reserve Your Seat</h2>
     {% if validated_choice == True %}
         <h1 style="font-size: 15px;text-align:left;"> Congratulations {{first_name}}! Row:{{row_choice+1}} Seat:{{seat_choice+1}} is now reserved for you! Enjoy the trip!</h1>
