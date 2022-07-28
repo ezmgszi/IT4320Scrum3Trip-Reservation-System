@@ -26,9 +26,9 @@
     <div style="background-color:#ced0d3;padding:5px;width:150px;border-radius:10px;">
         <ul>
             {% for row in seating_chart %}
-                <li> {{ row+1}} {{': [' }}
+                <li> {{'['}}
                 {% for a_value in seating_chart[row] %}
-                    {{ a_value }}
+                    '{{a_value}}'
                 {% endfor %}
                 {{']'}}</li>
             {% endfor %}
