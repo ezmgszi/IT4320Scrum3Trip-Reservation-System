@@ -93,7 +93,7 @@ def reservations():
     # get the form data
     form = ReservationForm()
     # if submit was selected, then a requests will have a post method
-    if request.method == "POST" and form.validate_onsubmit():
+    if request.method == "POST" and form.validate_on_submit():
         posting_data = True
 
         # get form data
