@@ -142,3 +142,14 @@ i {
 .g-recaptcha div {
   margin: auto;
 }
+
+#seattingtitle {
+    background-color: yellow;
+}
+
+.flightchart {
+  background-color:#ced0d3;
+  padding:5px;
+  width:150px;
+  border-radius:10px;
+}

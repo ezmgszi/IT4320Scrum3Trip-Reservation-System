@@ -95,13 +95,12 @@ def reservations():
     # if submit was selected, then a requests will have a post method
     if request.method == "POST" and form.validate_on_submit():
         posting_data = True
-
+        reservation_code = 0
         # get form data
         first_name = request.form["first_name"]
         last_name = request.form["last_name"]
-        row_choice = int(request.form["row"])
-        seat_choice = int(request.form["seat"])
-
+        row_choice = int(request.form["row"]) - 1
+        seat_choice = int(request.form["seat"]) - 1
         # make sure reservation isnt already done
         validated_choice = validate_choice(row_choice, seat_choice)
         # seat choice is available to be reserved, generate code and add to list
@@ -116,7 +115,12 @@ def reservations():
         # make the render call
         return render_template("reservations.html", form=form, template="form-template", posting_data=posting_data,
                                first_name=first_name, last_name=last_name, row_choice=row_choice,
-                               seat_choice=seat_choice, validated_choice=validated_choice, seating_chart=seating_chart)
+                               seat_choice=seat_choice, validated_choice=validated_choice, seating_chart=seating_chart,
+                               reservation_code=reservation_code)
     # post is false, first time templete is made
-    return render_template("reservations.html", form=form, template="form-template", posting_data=posting_data)
+    # create seating chart list
+    initial_reservations_list = get_reservations_list('reservations.csv')
+    seating_chart = generate_seating_charts(initial_reservations_list)
+    return render_template("reservations.html", form=form, template="form-template",
+                           posting_data=posting_data, seating_chart=seating_chart)
 

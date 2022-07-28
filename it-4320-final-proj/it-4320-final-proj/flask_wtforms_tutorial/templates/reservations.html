@@ -1,13 +1,36 @@
 {% extends 'layout.jinja2' %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}" type="text/css">
 {% endblock %}
 
 {% block content %}
 <div class="formwrapper">
   <h2 class="title">Reserve Your Seat</h2>
-  
+    {% if validated_choice == True %}
+        <h1 style="font-size: 15px;text-align:left;"> Your reservation has been created!</h1>
+        <h1 style="font-size: 15px;text-align:left;">  Reservation Code: </h1>
+        {{ reservation_code }}
+    {% endif %}
+     {% if validated_choice == False %}
+        <h1 style="font-size: 15px;text-align:left;"> Your reservation has not created</h1>
+        <h1 style="font-size: 15px;text-align:left;">  Seat is already reserved. Try again with a different seat choice </h1>
+    {% endif %}
+    <h1 style="font-size: 15px;text-align:left;"> Seating Chart</h1>
+    <h1 style="font-size: 10px;text-align:left;"> X = Reserved Seat : O = Available Seat </h1>
+
+    <div style="background-color:#ced0d3;padding:5px;width:150px;border-radius:10px;">
+        <ul>
+            {% for row in seating_chart %}
+                <li> {{ row+1}} {{': [' }}
+                {% for a_value in seating_chart[row] %}
+                    {{ a_value }}
+                {% endfor %}
+                {{']'}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
   <form method="POST" action="/reservations">
       {{ form.csrf_token }}
       <div class="form-field">{{ form.first_name.label }} {{ form.first_name }}
